@@ -1,11 +1,18 @@
+"""Hello I'm testfile.py.
+"""
+
 def hello(who, when):
     print(who)
     print(when)
 
 def world():
+    """This is world.
+    """
     print('World')
 
 class HelloWorld():
+    """This is HelloWorld class.
+    """
     def __init__(self, name):
         self.name = name
     
@@ -14,6 +21,11 @@ class HelloWorld():
     
     def test_with_args(self, what):
         print(what)
+    
+    def test_with_comment(self):
+        """This is a comment of function: test_with_comment
+        """
+        pass
 
 class JustDance(HelloWorld):
     def __init__(self, name):
@@ -24,3 +36,8 @@ class JustDance(HelloWorld):
     
     def dance(self, dc):
         print(dc)
+    
+    def test_with_comment(self, cm):
+        """Just dance when you are not happy!
+        """
+        print(cm)
