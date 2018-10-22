@@ -1,9 +1,11 @@
 #! /usr/bin/env python3
 # coding: utf-8
 import ast
+import os
 import sys
 import itertools
 from typing import List, Generator
+from .utils import *
 
 def get_ast_mod(filename: str) -> ast.Module:
     with open(filename) as f:
@@ -66,7 +68,11 @@ def check_cls_docs(cls_nodes: Generator) -> None:
         # the output below is ("NAME_OF_CLASS: DOC_OF_CLASS")
         print("{}: {}".format(cls_node.name, ast.get_docstring(cls_node)))
 
-def main(argv):
+def main():
+    argv = sys.argv
+    if (len(argv) < 2) or (not os.path.isfile(argv[1])):
+        print("Warning: Please indicate a valid file path.")
+        return
     for filename in argv[1:]:
         print(filename)
         body = get_ast_body(filename)
@@ -76,7 +82,3 @@ def main(argv):
         check_cls_docs(cls_nodes)
         print("=====Below are function docs=====")
         check_func_docs(func_nodes)
-
-
-if __name__ == "__main__":
-    main(sys.argv)
