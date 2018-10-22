@@ -11,13 +11,13 @@ if sys.argv[-1] == 'publish':
     sys.exit()
 
 setup(
-    name='pywtf',
+    name='py-wtf',
     version=version,
     description="A static analyzer of Python which forces you to write comments, and write them in a well-mannered way.",
     keywords='static-analyzer',
     author='Zheng Zhou',
     author_email='yootaoo@gmail.com',
-    url='https://github.com/zhoudaxia233/pywtf',
+    url='https://github.com/zhoudaxia233/py-wtf',
     license='MIT',
     packages=['pywtf'],
     include_package_data=True,

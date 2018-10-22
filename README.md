@@ -1,4 +1,4 @@
-# pywtf
+# py-wtf
 A static analyzer of Python which forces you to write comments, and write them in a well-mannered way.
 
 **wtf** is short for **what the function** or **why that function**.  
@@ -8,10 +8,10 @@ Since most of the time, when you read some code snippet of your own without comm
 ---
 
 ## Developing
-Install `pywtf` for development:
+Install `py-wtf` for development:
 
 ```bash
-python3 setup.py develop
+sudo python3 setup.py develop
 ```
 
 ---
