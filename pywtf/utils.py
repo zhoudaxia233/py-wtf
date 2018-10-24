@@ -1,4 +1,4 @@
-template = r"""A brief introduction of the functionalities of your funtion. 
+multi_line_template = r"""A brief introduction of the functionalities of your funtion. 
 You can also explain how it works and why it works. The more the better.
 
 Arguments:
@@ -6,4 +6,9 @@ Arguments:
                                  if there is one.
     args1 ...
           ... same as previous.
+
+Example:
+    show an intuitive example here.
 """
+
+one_line_template = r"""A brief introduction of the functionalities of your funtion."""
