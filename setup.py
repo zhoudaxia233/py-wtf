@@ -8,6 +8,7 @@ version = '0.0.2'
 if sys.argv[-1] == 'publish':
     os.system('python3 setup.py sdist')
     os.system('twine upload dist/*')
+    os.system('rm -rf dist py_wtf.egg-info')
     sys.exit()
 
 setup(
