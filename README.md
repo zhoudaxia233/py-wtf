@@ -31,6 +31,13 @@ sudo python3 setup.py develop
 ---
 
 ## Usage
+Use it as a command in Terminal:
 ```bash
 wtf testfile.py
+```
+or  
+
+use it as a normal Python library:
+```python
+import pywtf
 ```
