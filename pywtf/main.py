@@ -8,12 +8,16 @@ from typing import List, Generator
 from .utils import *
 
 def get_ast_mod(filename: str) -> ast.Module:
+    """Get ast module for the given python script.
+    """
     with open(filename) as f:
         code = f.read()
     mod = ast.parse(code)
     return mod
 
 def get_ast_body(filename: str) -> List[ast.stmt]:
+    """Get the body of ast module for the given python script.
+    """
     mod = get_ast_mod(filename)
     return mod.body
 
@@ -68,17 +72,29 @@ def check_cls_docs(cls_nodes: Generator) -> None:
         # the output below is ("NAME_OF_CLASS: DOC_OF_CLASS")
         print("{}: {}".format(cls_node.name, ast.get_docstring(cls_node)))
 
+def warn_func_docs_missing(func_nodes: Generator) -> None:
+    for func_node in func_nodes:
+        if isinstance(func_node, tuple):  # if the node is a class member function node
+            if not ast.get_docstring(func_node[1]):
+                print("WARNING: missing doc comments for functions in class: {}: {}".format(func_node[0].name, func_node[1].name))
+        else:  # if the node is a top-level function node
+            if not ast.get_docstring(func_node):
+                print("WARNING: missing doc comments in top-level function: {}".format(func_node.name))
+
+def warn_cls_docs_missing(cls_nodes: Generator) -> None:
+    for cls_node in cls_nodes:
+        if not ast.get_docstring(cls_node):
+            print("WARNING: missing doc comments for class: {}".format(cls_node.name))
+
 def main():
     argv = sys.argv
     if (len(argv) < 2) or (not os.path.isfile(argv[1])):
         print("Warning: Please indicate a valid file path.")
         return
     for filename in argv[1:]:
-        print(filename)
+        print("====== {} ======:".format(filename))
         body = get_ast_body(filename)
         func_nodes = get_all_funcs(body)
         cls_nodes = get_cls_nodes(body)
-        print("=====Below are class docs=====")
-        check_cls_docs(cls_nodes)
-        print("=====Below are function docs=====")
-        check_func_docs(func_nodes)
+        warn_cls_docs_missing(cls_nodes)
+        warn_func_docs_missing(func_nodes)

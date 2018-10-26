@@ -2,7 +2,7 @@ import os
 import sys
 from setuptools import setup
 
-version = '0.0.1'
+version = '0.0.2'
 
 # "setup.py publish" shortcut.
 if sys.argv[-1] == 'publish':
@@ -23,6 +23,7 @@ setup(
     include_package_data=True,
     zip_safe=False,
     install_requires=[],
+    python_requires='>=3.5',
     dependency_links=[],
     entry_points={
         'console_scripts': [
