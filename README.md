@@ -7,8 +7,12 @@ Since most of the time, when you read some code snippet of your own without comm
 
 ---
 
-## Installation
+## Requirements
+Python >= 3.5
 
+---
+
+## Installation
 Install `py-wtf`:
 
 ```bash
