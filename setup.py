@@ -1,8 +1,9 @@
 import os
 import sys
+import io
+import re
 from setuptools import setup
 
-version = '0.0.2'
 
 # "setup.py publish" shortcut.
 if sys.argv[-1] == 'publish':
@@ -10,6 +11,9 @@ if sys.argv[-1] == 'publish':
     os.system('twine upload dist/*')
     os.system('rm -rf dist py_wtf.egg-info')
     sys.exit()
+
+with io.open("pywtf/__init__.py", "rt", encoding="utf8") as f:
+    version = re.search(r"__version__ = \'(.*?)\'", f.read()).group(1)
 
 setup(
     name='py-wtf',

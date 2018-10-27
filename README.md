@@ -41,3 +41,5 @@ use it as a normal Python library:
 ```python
 import pywtf
 ```
+
+> It only complains the missing of class's docstrings and top-level function's docstrings. It **DOESN'T** care about docstrings for **source files**.
