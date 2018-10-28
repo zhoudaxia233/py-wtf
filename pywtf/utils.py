@@ -3,6 +3,7 @@ import re
 import tokenize as tk
 from io import StringIO
 from collections import deque
+from typing import List
 
 
 def get_content(filename: str) -> str:
@@ -11,7 +12,7 @@ def get_content(filename: str) -> str:
         content = f.read()
         return content
 
-def get_func_name(str_):
+def get_func_name(str_: str):
     prog = re.compile(r'\s*def\s+(.*)\(')
     result = prog.match(str_)
     return result.group(1) if result else result
@@ -23,7 +24,7 @@ def _check_cache(cache):
             return get_func_name(line)
     return None
 
-def detect_infunc_and_same_line_comment(source):
+def detect_infunc_and_same_line_comment(source: str) -> List:
     """Detect #-style comment in the first or second line inside a function.
     It can also detect #-style comment in the same line as def statement.
 
@@ -56,7 +57,7 @@ def detect_infunc_and_same_line_comment(source):
                     func_name_and_cmt.append((func_name, token))
     return func_name_and_cmt
 
-def detect_outfunc_comment(source):
+def detect_outfunc_comment(source: str) -> List:
     """Detect #-style comment outside a function.
     Note: the comment should be next to the function so that it can be detected.
 
@@ -81,7 +82,7 @@ def detect_outfunc_comment(source):
                         func_name_and_cmt.append((func_name, cmt))
     return func_name_and_cmt
 
-def get_all_names_of_funcs_with_comment(source):
+def get_all_names_of_funcs_with_comment(source: str) -> List:
     func_names = []
     infunc_and_same_cmt_list = detect_infunc_and_same_line_comment(source)
     outfunc_cmt_list = detect_outfunc_comment(source)
