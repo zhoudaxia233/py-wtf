@@ -31,10 +31,24 @@ sudo python3 setup.py develop
 ---
 
 ## Usage
+Before you actually use it, there are two modes in this tool that you need to know:
+- normal mode
+- strict mode
+
+In `normal mode`, both comments (#-style) and docstrings will be considered as "comments". It won't complain missing of comments if you'd at least written a `#` mark for your functions.
+
+However, in `strict mode`, it only considers docstrings as "comments". So, if you only have comments (#-style) in your script, it will report warnings.
+
+> The default mode is `normal mode`.
+---
+
 Use it as a command in Terminal:
 ```bash
 # you can process multiple files at the same time
 wtf testfile_comment.py testfile_docstring.py
+
+# you can switch to strict mode by passing -s argument
+wtf testfile_comment.py -s
 ```
 or  
 
