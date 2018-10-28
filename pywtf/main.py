@@ -10,8 +10,7 @@ from .utils import *
 def get_ast_mod(filename: str) -> ast.Module:
     """Get ast module for the given python script.
     """
-    with open(filename) as f:
-        code = f.read()
+    code = get_content(filename)
     mod = ast.parse(code)
     return mod
 
@@ -72,19 +71,25 @@ def check_cls_docs(cls_nodes: Generator) -> None:
         # the output below is ("NAME_OF_CLASS: DOC_OF_CLASS")
         print("{}: {}".format(cls_node.name, ast.get_docstring(cls_node)))
 
-def warn_func_docs_missing(func_nodes: Generator) -> None:
+def warn_func_docs_missing(func_nodes: Generator, name_list: List, strict: bool = False) -> None:
     for func_node in func_nodes:
         if isinstance(func_node, tuple):  # if the node is a class member function node
             if not ast.get_docstring(func_node[1]):
-                print("WARNING: missing doc comments for functions in class: {}: {}".format(func_node[0].name, func_node[1].name))
+                if (not strict) and (func_node[1].name in name_list):
+                    continue
+                else:
+                    print("WARNING: missing comments for functions in class: {}: {}".format(func_node[0].name, func_node[1].name))
         else:  # if the node is a top-level function node
             if not ast.get_docstring(func_node):
-                print("WARNING: missing doc comments in top-level function: {}".format(func_node.name))
+                if (not strict) and (func_node.name in name_list):
+                    continue
+                else:
+                    print("WARNING: missing comments in top-level function: {}".format(func_node.name))
 
 def warn_cls_docs_missing(cls_nodes: Generator) -> None:
     for cls_node in cls_nodes:
         if not ast.get_docstring(cls_node):
-            print("WARNING: missing doc comments for class: {}".format(cls_node.name))
+            print("WARNING: missing docstrings for class: {}".format(cls_node.name))
 
 def main():
     argv = sys.argv
@@ -93,8 +98,10 @@ def main():
         return
     for filename in argv[1:]:
         print("====== {} ======:".format(filename))
+        source = get_content(filename)
         body = get_ast_body(filename)
         func_nodes = get_all_funcs(body)
         cls_nodes = get_cls_nodes(body)
         warn_cls_docs_missing(cls_nodes)
-        warn_func_docs_missing(func_nodes)
+        name_list = get_all_names_of_funcs_with_comment(source)
+        warn_func_docs_missing(func_nodes, name_list)
