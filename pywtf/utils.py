@@ -55,7 +55,31 @@ def detect_infunc_and_same_line_comment(source):
                 if func_name:
                     print("{}: {}".format(func_name, token))
 
-# check "def statement" in succeeding one line
+def detect_outfunc_comment(source):
+    """Detect #-style comment outside a function.
+    Note: the comment should be next to the function so that it can be detected.
+
+    e.g. functions like below can be detected:
+    # comment
+    def foo():
+        pass
+    """
+    cache = deque(maxlen=1)
+    for type_, token, _, _, line in tk.generate_tokens(StringIO(source).readline):
+        if type_ not in [tk.NAME, tk.NL, tk.DEDENT]:
+            cache.append((type_, token))
+        else:
+            if type_ == tk.NAME and token == 'def':
+                prev_line_list = list(cache)
+                if prev_line_list:
+                    prev_line = prev_line_list[0]
+                    if prev_line[0] == tk.COMMENT:
+                        cmt = prev_line[1]
+                        func_name = get_func_name(line)
+                        print("{}: {}".format(func_name, cmt))
 
 
-detect_infunc_and_same_line_comment(source)
+# for i in tk.generate_tokens(StringIO(source).readline):
+#     print(i)
+
+detect_outfunc_comment(source)
