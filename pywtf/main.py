@@ -2,8 +2,8 @@
 # coding: utf-8
 import ast
 import os
-import sys
 import itertools
+import argparse
 from typing import List, Generator
 from .utils import *
 
@@ -90,17 +90,31 @@ def warn_cls_docs_missing(cls_nodes: Generator) -> None:
         if not ast.get_docstring(cls_node):
             print("WARNING: missing docstrings for class: {}".format(cls_node.name))
 
+def _filename_check(filenames: List) -> bool:
+    for filename in filenames:
+        if not os.path.isfile(filename):
+            return False
+    return True
+
+def init():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("file", nargs="+")
+    parser.add_argument("-s", "--strict", help="use strict mode", action="store_true")
+    args = parser.parse_args()
+    return (args.file, args.strict)
+
 def main():
-    argv = sys.argv
-    if (len(argv) < 2) or (not os.path.isfile(argv[1])):
-        print("Warning: Please indicate a valid file path.")
+    filenames, strict_mode = init()
+    if not _filename_check(filenames):
+        print("Warning: Please indicate valid file paths.")
         return
-    for filename in argv[1:]:
-        print("====== {} ======:".format(filename))
+    mode = "strict mode" if strict_mode else "normal mode"
+    for filename in filenames:
+        print("({})====== {} ======:".format(mode, filename))
         source = get_content(filename)
         body = get_ast_body(source)
         func_nodes = get_all_funcs(body)
         cls_nodes = get_cls_nodes(body)
         warn_cls_docs_missing(cls_nodes)
         name_list = get_all_names_of_funcs_with_comment(source)
-        warn_func_docs_missing(func_nodes, name_list, False)
+        warn_func_docs_missing(func_nodes, name_list, strict_mode)

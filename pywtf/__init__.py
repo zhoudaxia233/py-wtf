@@ -12,4 +12,4 @@ from .main import warn_func_docs_missing
 from .main import warn_cls_docs_missing
 from .utils import *
 
-__version__ = '0.0.3'
+__version__ = '0.0.4'
