@@ -33,7 +33,8 @@ sudo python3 setup.py develop
 ## Usage
 Use it as a command in Terminal:
 ```bash
-wtf testfile.py
+# you can process multiple files at the same time
+wtf testfile_comment.py testfile_docstring.py
 ```
 or  
 
@@ -42,4 +43,4 @@ use it as a normal Python library:
 import pywtf
 ```
 
-> It only complains the missing of class's docstrings and top-level function's docstrings. It **DOESN'T** care about docstrings for **source files**.
+> It only complains the missing of class's docstrings, class member functions' comments and top-level functions' comments. It **DOESN'T** care about docstrings or comments for **source files**.
