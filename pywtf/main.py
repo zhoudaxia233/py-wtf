@@ -7,11 +7,10 @@ import itertools
 from typing import List, Generator
 from .utils import *
 
-def get_ast_mod(filename: str) -> ast.Module:
+def get_ast_mod(source: str) -> ast.Module:
     """Get ast module for the given python script.
     """
-    code = get_content(filename)
-    mod = ast.parse(code)
+    mod = ast.parse(source)
     return mod
 
 def get_ast_body(filename: str) -> List[ast.stmt]:
@@ -99,9 +98,9 @@ def main():
     for filename in argv[1:]:
         print("====== {} ======:".format(filename))
         source = get_content(filename)
-        body = get_ast_body(filename)
+        body = get_ast_body(source)
         func_nodes = get_all_funcs(body)
         cls_nodes = get_cls_nodes(body)
         warn_cls_docs_missing(cls_nodes)
         name_list = get_all_names_of_funcs_with_comment(source)
-        warn_func_docs_missing(func_nodes, name_list)
+        warn_func_docs_missing(func_nodes, name_list, False)
