@@ -98,17 +98,23 @@ def _filename_check(filenames: List) -> bool:
 
 def init():
     parser = argparse.ArgumentParser()
-    parser.add_argument("file", nargs="+")
+    parser.add_argument("path", nargs="+", help="path of folder or files")
     parser.add_argument("-s", "--strict", help="use strict mode", action="store_true")
     args = parser.parse_args()
-    return (args.file, args.strict)
+    return (args.path, args.strict)
 
 def main():
-    filenames, strict_mode = init()
-    if not _filename_check(filenames):
-        print("Warning: Please indicate valid file paths.")
-        return
+    path, strict_mode = init()
+    if os.path.isdir(path[0]):  # if path is a list of folder names, we only handle the first folder
+        filenames = get_py_files_inside_dir(path[0])
+    else:
+        if not _filename_check(path):
+            print("Warning: Please indicate a valid path for file or folder.")
+            return
+        filenames = path
+
     mode = "strict mode" if strict_mode else "normal mode"
+
     for filename in filenames:
         print("({})====== {} ======:".format(mode, filename))
         source = get_content(filename)

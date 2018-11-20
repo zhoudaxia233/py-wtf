@@ -1,4 +1,5 @@
 # coding: utf-8
+import os
 import re
 import tokenize as tk
 from io import StringIO
@@ -90,3 +91,16 @@ def get_all_names_of_funcs_with_comment(source: str) -> List:
     for func_name, _ in cmt_list:
         func_names.append(func_name)
     return func_names
+
+def get_py_files_inside_dir(path: str) -> List:
+    """Return all python files' paths inside the given folder, recursively.
+    Note:
+    if you have subfolders inside the given folder, it also return python files' paths 
+    inside the subfolders.
+    """
+    paths = []
+    for root, _, filenames in os.walk(path):
+        for filename in filenames:
+            if filename.endswith(".py"):
+                paths.append(os.path.join(root, filename))
+    return paths
