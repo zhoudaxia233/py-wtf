@@ -45,10 +45,13 @@ However, in `strict mode`, it only considers docstrings as "comments". So, if yo
 Use it as a command in Terminal:
 ```bash
 # you can process multiple files at the same time
-wtf testfile_comment.py testfile_docstring.py
+wtf NAME_OF_FILE0.py NAME_OF_FILE1.py NAME_OF_FILEn.py
+
+# you can process a folder of files (currently only one folder is supported)
+wtf NAME_OF_FOLDER
 
 # you can switch to strict mode by passing -s argument
-wtf testfile_comment.py -s
+wtf NAME_OF_FILE.py -s
 ```
 or  
 
