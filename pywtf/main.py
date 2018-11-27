@@ -6,6 +6,7 @@ import itertools
 import argparse
 from typing import List, Generator
 from .utils import *
+from ._version import __version__
 
 def get_ast_mod(source: str) -> ast.Module:
     """Get ast module for the given python script.
@@ -100,6 +101,7 @@ def init():
     parser = argparse.ArgumentParser()
     parser.add_argument("path", nargs="+", help="path of folder or files")
     parser.add_argument("-s", "--strict", help="use strict mode", action="store_true")
+    parser.add_argument("-v", "--version", action='version', version='%(prog)s {}'.format(__version__))
     args = parser.parse_args()
     return (args.path, args.strict)
 

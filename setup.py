@@ -2,6 +2,7 @@ import os
 import sys
 import io
 import re
+import pywtf
 from setuptools import setup
 
 
@@ -12,12 +13,9 @@ if sys.argv[-1] == 'publish':
     os.system('rm -rf dist py_wtf.egg-info')
     sys.exit()
 
-with io.open("pywtf/__init__.py", "rt", encoding="utf8") as f:
-    version = re.search(r"__version__ = \'(.*?)\'", f.read()).group(1)
-
 setup(
     name='py-wtf',
-    version=version,
+    version=pywtf.__version__,
     description="A static analyzer of Python which forces you to write comments, and write them in a well-mannered way.",
     keywords='static-analyzer',
     author='Zheng Zhou',
