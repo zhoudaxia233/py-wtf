@@ -7,6 +7,11 @@ Since most of the time, when you read some code snippet of your own without comm
 
 ---
 
+## To do list
+- [ ] Provide customized comment templates when detecting uncommented code snippets.
+
+---
+
 ## Requirements
 Python >= 3.5
 
